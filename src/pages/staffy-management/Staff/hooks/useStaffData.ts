@@ -28,6 +28,8 @@ export const useStaffData = () => {
         phone: staff.staff_personal_data?.phone_number || "",
         hireDate: staff.hire_date || "",
         status: staff.status,
+        role: staff.users?.role || "",
+        photoUrl: staff.photo_url || "",
         // Personal data fields
         firstName: staff.staff_personal_data?.first_name || "",
         lastName: staff.staff_personal_data?.last_name || "",
@@ -43,7 +45,10 @@ export const useStaffData = () => {
           staff.staff_personal_data?.emergency_contact_number || "",
         gdprConsentGiven:
           staff.staff_personal_data?.gdpr_consent_given || false,
+        gdprConsentDate: staff.staff_personal_data?.gdpr_consent_date || "",
       }));
+
+      console.log("[useStaffData] Final staffMembers:", staffMembers);
       return staffMembers;
     },
     ...queryConfig.realtime, // Use realtime config with infinite staleTime

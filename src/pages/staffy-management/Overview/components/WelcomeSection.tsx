@@ -11,7 +11,7 @@ export const WelcomeSection = () => {
         <div className="welcome-content">
           <h2>Welcome to Staffy Management System</h2>
           <p className="welcome-subtitle">
-            Your comprehensive solution for hotel staff management, scheduling,
+            Your comprehensive solution for staff management, scheduling,
             and operations
           </p>
         </div>

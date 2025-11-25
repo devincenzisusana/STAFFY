@@ -4,12 +4,14 @@ import "./PhotoUpload.css";
 
 interface PhotoUploadProps {
   photoPreview: string | null;
+  photoUrl?: string;
   onPhotoChange: (file: File) => void;
   disabled?: boolean;
 }
 
 export const PhotoUpload = ({
   photoPreview,
+  photoUrl,
   onPhotoChange,
   disabled = false,
 }: PhotoUploadProps) => {
@@ -36,8 +38,8 @@ export const PhotoUpload = ({
   return (
     <div className="staff-photo-section">
       <div className="staff-photo-preview">
-        {photoPreview ? (
-          <img src={photoPreview} alt="Staff preview" />
+        {photoPreview || photoUrl ? (
+          <img src={photoPreview || photoUrl} alt="Staff preview" />
         ) : (
           <div className="staff-photo-placeholder">??</div>
         )}

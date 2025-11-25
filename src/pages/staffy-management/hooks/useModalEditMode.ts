@@ -113,22 +113,52 @@ export const useModalEditMode = <T extends Record<string, any>>({
     async (e: React.FormEvent) => {
       e.preventDefault();
 
+      console.log("[useModalEditMode] handleSubmit called", {
+        timestamp: new Date().toISOString(),
+        mode,
+        isEditMode,
+        allowSubmit,
+        hasOnSubmit: !!onSubmit,
+      });
+
       // Guard clauses for invalid submission attempts
-      if (!allowSubmit) return; // Temporary block during mode transition
-      if (mode === "view" && !isEditMode) return; // Can't submit in view-only mode
-      if (!onSubmit) return; // No submission handler provided
+      if (!allowSubmit) {
+        console.log("[useModalEditMode] Submit blocked: allowSubmit is false");
+        return;
+      }
+      if (mode === "view" && !isEditMode) {
+        console.log(
+          "[useModalEditMode] Submit blocked: view mode without edit"
+        );
+        return;
+      }
+      if (!onSubmit) {
+        console.log("[useModalEditMode] Submit blocked: no onSubmit handler");
+        return;
+      }
+
+      console.log("[useModalEditMode] Starting submission...", {
+        timestamp: new Date().toISOString(),
+      });
 
       setIsSubmitting(true);
       setError(null);
       try {
+        const submitStart = performance.now();
         await onSubmit(formData);
+        const submitEnd = performance.now();
+        console.log("[useModalEditMode] onSubmit completed successfully", {
+          duration: `${(submitEnd - submitStart).toFixed(2)}ms`,
+          timestamp: new Date().toISOString(),
+        });
         // Reset state and close modal on successful submission
         setFormData(defaultFormData);
         setIsEditMode(false);
         setIsSubmitting(false);
         onClose();
+        console.log("[useModalEditMode] Modal closed successfully");
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error("[useModalEditMode] Error submitting form:", error);
         setError(error instanceof Error ? error.message : "An error occurred");
         setIsSubmitting(false);
         // Keep modal open on error to allow user to fix issues

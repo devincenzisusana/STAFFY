@@ -9,6 +9,7 @@ import {
 import { supabase } from "@/lib/supabase";
 import { Input } from "@/components/common/Input";
 import { Button } from "@/components/common/Button";
+import staffyLogo from "@/assets/images/staffy-logo.png";
 import "./Login.css";
 
 export const Login = () => {
@@ -56,6 +57,9 @@ export const Login = () => {
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/management`,
+          queryParams: {
+            prompt: "select_account", // Force account selection
+          },
         },
       });
 
@@ -71,11 +75,39 @@ export const Login = () => {
     }
   };
 
+  const handleMicrosoftSignIn = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const { error: signInError } = await supabase.auth.signInWithOAuth({
+        provider: "azure",
+        options: {
+          redirectTo: `${window.location.origin}/management`,
+          scopes: "email",
+          queryParams: {
+            prompt: "select_account", // Force account selection
+          },
+        },
+      });
+
+      if (signInError) {
+        setError(signInError.message);
+        setLoading(false);
+      }
+      // Don't set loading to false here as the page will redirect
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+      console.error("Microsoft sign-in error:", err);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1 className="login-logo">STAFFY</h1>
+          <img src={staffyLogo} alt="Staffy" className="login-logo-image" />
           <p className="login-subtitle">Staff Management System</p>
         </div>
 
@@ -171,6 +203,30 @@ export const Login = () => {
               />
             </svg>
             Sign in with Google
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            fullWidth
+            onClick={handleMicrosoftSignIn}
+            disabled={loading}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 23 23"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ marginRight: "8px" }}
+            >
+              <path fill="#f3f3f3" d="M0 0h23v23H0z" />
+              <path fill="#f35325" d="M1 1h10v10H1z" />
+              <path fill="#81bc06" d="M12 1h10v10H12z" />
+              <path fill="#05a6f0" d="M1 12h10v10H1z" />
+              <path fill="#ffba08" d="M12 12h10v10H12z" />
+            </svg>
+            Sign in with Microsoft
           </Button>
         </form>
       </div>

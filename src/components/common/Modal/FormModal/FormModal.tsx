@@ -78,8 +78,21 @@ export const FormModal = ({
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    console.log("[FormModal] handleSubmit called", {
+      timestamp: new Date().toISOString(),
+      mode,
+      isEditMode,
+      isReadOnly,
+      hasOnSubmit: !!onSubmit,
+    });
     if (onSubmit && !isReadOnly) {
+      console.log("[FormModal] Calling onSubmit...");
       onSubmit(e);
+    } else {
+      console.log("[FormModal] Submit blocked", {
+        hasOnSubmit: !!onSubmit,
+        isReadOnly,
+      });
     }
   };
 

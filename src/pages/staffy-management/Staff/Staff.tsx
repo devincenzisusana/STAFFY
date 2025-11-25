@@ -125,15 +125,50 @@ export const Staff = () => {
         <AddStaffModal
           isOpen={isViewModalOpen}
           onClose={closeViewModal}
-          initialData={selectedStaff}
+          initialData={{
+            ...selectedStaff,
+            phoneNumber: selectedStaff.phone,
+            gdprConsent: selectedStaff.gdprConsentGiven,
+          }}
           mode="view"
           onDelete={async () => {
             await staffService.deleteStaffMember(selectedStaff.id);
             await loadStaff();
           }}
           onSubmit={async (data: StaffFormData) => {
-            await staffService.updateStaffMember(selectedStaff.id, data);
-            await loadStaff();
+            console.log("[Staff.tsx] onSubmit called", {
+              timestamp: new Date().toISOString(),
+              staffId: selectedStaff.id,
+              hasPhoto: !!data.photo,
+              photoDetails: data.photo
+                ? {
+                    name: data.photo.name,
+                    size: data.photo.size,
+                    type: data.photo.type,
+                    isFile: data.photo instanceof File,
+                  }
+                : null,
+            });
+            const submitStart = performance.now();
+            try {
+              await staffService.updateStaffMember(selectedStaff.id, data);
+              const submitEnd = performance.now();
+              console.log("[Staff.tsx] Update completed", {
+                duration: `${(submitEnd - submitStart).toFixed(2)}ms`,
+                timestamp: new Date().toISOString(),
+              });
+              console.log("[Staff.tsx] Reloading staff data...");
+              const reloadStart = performance.now();
+              await loadStaff();
+              const reloadEnd = performance.now();
+              console.log("[Staff.tsx] Staff data reloaded", {
+                duration: `${(reloadEnd - reloadStart).toFixed(2)}ms`,
+                timestamp: new Date().toISOString(),
+              });
+            } catch (error) {
+              console.error("[Staff.tsx] Error updating staff:", error);
+              throw error;
+            }
           }}
         />
       )}

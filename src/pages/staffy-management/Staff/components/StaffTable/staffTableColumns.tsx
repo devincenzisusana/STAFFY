@@ -15,6 +15,8 @@ export interface StaffMember {
   phone: string;
   hireDate: string;
   status: "active" | "inactive" | "on-leave";
+  role: string;
+  photoUrl?: string;
   // Personal data fields
   firstName: string;
   lastName: string;
@@ -27,6 +29,7 @@ export interface StaffMember {
   emergencyContactName: string;
   emergencyContactNumber: string;
   gdprConsentGiven: boolean;
+  gdprConsentDate: string;
 }
 
 const statusVariantMap: Record<

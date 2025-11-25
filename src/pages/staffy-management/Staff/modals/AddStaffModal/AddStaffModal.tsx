@@ -12,6 +12,7 @@ import "./AddStaffModal.css";
 
 export interface StaffFormData {
   photo?: File;
+  photoUrl?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -30,6 +31,7 @@ export interface StaffFormData {
   emergencyContactName: string;
   emergencyContactNumber: string;
   gdprConsent: boolean;
+  gdprConsentDate?: string;
 }
 
 interface AddStaffModalProps {
@@ -61,6 +63,7 @@ const defaultFormData: StaffFormData = {
   emergencyContactName: "",
   emergencyContactNumber: "",
   gdprConsent: false,
+  gdprConsentDate: "",
 };
 
 export const AddStaffModal = ({
@@ -113,6 +116,11 @@ export const AddStaffModal = ({
   });
 
   const handlePhotoChange = (file: File) => {
+    console.log("[AddStaffModal] Photo changed", {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+    });
     setFormData({ ...formData, photo: file });
 
     // Create preview
@@ -144,6 +152,7 @@ export const AddStaffModal = ({
       <div className="staff-form">
         <PhotoUpload
           photoPreview={photoPreview}
+          photoUrl={formData.photoUrl}
           onPhotoChange={handlePhotoChange}
           disabled={isReadOnly}
         />
@@ -193,8 +202,8 @@ export const AddStaffModal = ({
                 }}
               >
                 <option value="">Select role</option>
-                <option value="admin">Admin</option>
-                <option value="staff">Staff</option>
+                <option value="admin-operator">Admin</option>
+                <option value="staff-operator">Staff</option>
               </select>
             </div>
           </div>

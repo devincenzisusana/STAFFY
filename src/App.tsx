@@ -14,34 +14,115 @@ import { Locations } from "@/pages/staffy-venues/Locations";
 import { VenuesReports } from "@/pages/staffy-venues/VenuesReports";
 import { VenuesSettings } from "@/pages/staffy-venues/VenuesSettings";
 import { AuthProvider } from "@/context/AuthContext";
+import { ToastProvider } from "@/context/ToastContext";
+import { ProtectedRoute } from "@/components/auth";
 
 function App() {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={<Login />} />
+    <ToastProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="/login" element={<Login />} />
 
-            {/* Staff Management Routes */}
-            <Route path="/management" element={<StaffyManagement />} />
-            <Route path="/management/time-control" element={<TimeControl />} />
-            <Route path="/management/staff" element={<Staff />} />
-            <Route path="/management/tasks" element={<TaskAssignment />} />
-            <Route path="/management/schedule" element={<Schedule />} />
-            <Route path="/management/absence" element={<Absence />} />
+              {/* Staff Management Routes */}
+              <Route
+                path="/management"
+                element={
+                  <ProtectedRoute>
+                    <StaffyManagement />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/management/time-control"
+                element={
+                  <ProtectedRoute>
+                    <TimeControl />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/management/staff"
+                element={
+                  <ProtectedRoute>
+                    <Staff />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/management/tasks"
+                element={
+                  <ProtectedRoute>
+                    <TaskAssignment />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/management/schedule"
+                element={
+                  <ProtectedRoute>
+                    <Schedule />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/management/absence"
+                element={
+                  <ProtectedRoute>
+                    <Absence />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Venues Routes */}
-            <Route path="/venues" element={<StaffyVenues />} />
-            <Route path="/venues/list" element={<VenuesList />} />
-            <Route path="/venues/locations" element={<Locations />} />
-            <Route path="/venues/reports" element={<VenuesReports />} />
-            <Route path="/venues/settings" element={<VenuesSettings />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </AuthProvider>
+              {/* Venues Routes */}
+              <Route
+                path="/venues"
+                element={
+                  <ProtectedRoute>
+                    <StaffyVenues />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/venues/list"
+                element={
+                  <ProtectedRoute>
+                    <VenuesList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/venues/locations"
+                element={
+                  <ProtectedRoute>
+                    <Locations />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/venues/reports"
+                element={
+                  <ProtectedRoute>
+                    <VenuesReports />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/venues/settings"
+                element={
+                  <ProtectedRoute>
+                    <VenuesSettings />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 

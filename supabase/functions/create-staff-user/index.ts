@@ -68,8 +68,15 @@ serve(async (req) => {
     //   });
     // }
 
-    const { email, password, firstName, lastName, role, isGoogleAuth } =
-      await req.json();
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      role,
+      isOAuthAccount,
+      oauthProvider,
+    } = await req.json();
 
     if (!email || !firstName || !lastName || !role) {
       return new Response(
@@ -89,12 +96,12 @@ serve(async (req) => {
       );
     }
 
-    // For Google auth users, return a placeholder ID
-    // The actual auth user will be created when they sign in with Google
+    // For OAuth users (Google or Microsoft), return a placeholder ID
+    // The actual auth user will be created when they sign in with their provider
     let userId;
 
-    if (isGoogleAuth) {
-      // For Gmail users: create a placeholder auth user that will be replaced on first Google sign-in
+    if (isOAuthAccount) {
+      // For OAuth users: create a placeholder auth user that will be replaced on first sign-in
       userId = crypto.randomUUID();
 
       // Create placeholder auth user (this satisfies the foreign key constraint)
@@ -105,7 +112,8 @@ serve(async (req) => {
           user_metadata: {
             first_name: firstName,
             last_name: lastName,
-            is_google_placeholder: true, // Mark as placeholder
+            is_oauth_placeholder: true, // Mark as placeholder
+            oauth_provider: oauthProvider, // 'google' or 'microsoft'
           },
         });
 
@@ -160,9 +168,11 @@ serve(async (req) => {
         JSON.stringify({
           userId,
           email,
-          isGoogleAuth: true,
-          message:
-            "Staff record can be created. User will authenticate via Google on first login.",
+          isOAuthAccount: true,
+          oauthProvider,
+          message: `Staff record can be created. User will authenticate via ${
+            oauthProvider || "OAuth"
+          } on first login.`,
         }),
         {
           status: 200,
@@ -174,7 +184,7 @@ serve(async (req) => {
     // For email/password users: create auth user with password
     if (!password) {
       return new Response(
-        JSON.stringify({ error: "Password required for non-Google auth" }),
+        JSON.stringify({ error: "Password required for non-OAuth auth" }),
         {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -202,20 +212,42 @@ serve(async (req) => {
 
     userId = authData.user.id;
 
-    // Update user role in users table
-
-    const { error: roleError } = await supabaseAdmin
+    // Get tenant_id from the requesting user
+    const { data: userData } = await supabaseAdmin
       .from("users")
-      .update({ role })
-      .eq("id", userId);
+      .select("tenant_id")
+      .eq("id", user.id)
+      .single();
 
-    if (roleError) {
+    const tenantId = userData?.tenant_id;
+
+    if (!tenantId) {
+      // Rollback: delete the created auth user
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+      return new Response(
+        JSON.stringify({ error: "Unable to determine tenant_id" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Create users record for email/password users
+    const { error: usersError } = await supabaseAdmin.from("users").insert({
+      id: userId,
+      tenant_id: tenantId,
+      email,
+      role: role === "admin" ? "admin-operator" : "staff-operator",
+    });
+
+    if (usersError) {
       // Rollback: delete the created auth user
       await supabaseAdmin.auth.admin.deleteUser(userId);
       return new Response(
         JSON.stringify({
-          error: "Failed to update role",
-          details: roleError.message,
+          error: "Failed to create user record",
+          details: usersError.message,
         }),
         {
           status: 400,
@@ -228,7 +260,7 @@ serve(async (req) => {
       JSON.stringify({
         userId,
         email,
-        isGoogleAuth: false,
+        isOAuthAccount: false,
       }),
       {
         status: 200,
