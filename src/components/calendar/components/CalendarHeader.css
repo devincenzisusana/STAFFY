@@ -1,0 +1,127 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  gap: 2rem;
+}
+
+.calendar-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.calendar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #212121;
+  margin: 0;
+}
+
+.view-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.view-mode-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.view-mode-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.view-mode-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.view-mode-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.view-mode-switch input:checked + .view-mode-slider {
+  background-color: var(--color-primary);
+}
+
+.view-mode-switch input:checked + .view-mode-slider:before {
+  transform: translateX(20px);
+}
+
+.view-mode-switch input:focus + .view-mode-slider {
+  box-shadow: 0 0 0 2px var(--color-primary-light);
+}
+
+.view-mode-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 60px;
+}
+
+.calendar-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-filter {
+  min-width: 180px;
+}
+
+.staff-search {
+  min-width: 250px;
+}
+
+.calendar-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-header-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}

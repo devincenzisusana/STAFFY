@@ -1,0 +1,23 @@
+.task-category-priority {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.task-category-priority__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-category-priority__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .task-category-priority {
+    grid-template-columns: 1fr;
+  }
+}

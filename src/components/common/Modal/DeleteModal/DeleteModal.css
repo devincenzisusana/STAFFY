@@ -1,0 +1,39 @@
+.delete-content {
+  text-align: center;
+}
+
+.delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #ffebee;
+  color: #d32f2f;
+  font-size: 1.5rem;
+}
+
+.delete-message {
+  font-size: 0.938rem;
+  color: #616161;
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
+}
+
+.delete-item-name {
+  padding: 0.75rem;
+  background: #f5f5f5;
+  border-radius: 0.375rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.938rem;
+  color: #212121;
+}
+
+.delete-warning {
+  font-size: 0.813rem;
+  color: #d32f2f;
+  font-weight: 500;
+  margin: 0;
+}

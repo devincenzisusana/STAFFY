@@ -1,0 +1,1 @@
+export { GDPRConsent } from "./GDPRConsent";

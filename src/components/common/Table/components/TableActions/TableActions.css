@@ -1,0 +1,10 @@
+.table-actions-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--component-gap-sm);
+  flex-wrap: wrap;
+}
+
+.table-actions-dropdown {
+  display: inline-flex;
+}

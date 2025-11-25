@@ -1,0 +1,31 @@
+.list-modal-content {
+  padding: 0.5rem 0;
+}
+
+.list-modal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list-modal-item {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.list-modal-item:hover {
+  background-color: #f5f5f5;
+  border-color: #bdbdbd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.list-modal-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #757575;
+  font-size: 0.875rem;
+}

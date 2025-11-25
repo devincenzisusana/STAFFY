@@ -1,0 +1,41 @@
+.detail-modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-field-full {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.detail-value {
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detail-modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-field-full {
+    grid-column: 1;
+  }
+}

@@ -1,0 +1,132 @@
+.week-view {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.week-view-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.week-day-header {
+  padding: 1rem;
+  text-align: center;
+  border-right: 1px solid #e0e0e0;
+}
+
+.week-day-header:last-child {
+  border-right: none;
+}
+
+.week-day-header.today {
+  background: #e3f2fd;
+}
+
+.day-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #616161;
+  margin-bottom: 0.25rem;
+}
+
+.week-day-header.today .day-name {
+  color: #2196f3;
+}
+
+.day-date {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #212121;
+}
+
+.week-day-header.today .day-date {
+  background: #2196f3;
+  color: #ffffff;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.week-view-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  min-height: 400px;
+}
+
+.week-day-column {
+  border-right: 1px solid #e0e0e0;
+  padding: 1rem 0.5rem;
+  background: #ffffff;
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.week-day-column.clickable {
+  cursor: pointer;
+}
+
+.week-day-column.clickable:hover {
+  background: #f0f7ff;
+}
+
+.week-day-column:last-child {
+  border-right: none;
+}
+
+.week-day-column.today {
+  background: #f9feff;
+}
+
+.week-day-column.today.clickable:hover {
+  background: #e3f2fd;
+}
+
+.more-indicator-week {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: #2196f3;
+  font-weight: 600;
+  background: #e3f2fd;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  z-index: 1;
+}
+
+.day-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .week-view-header {
+    grid-template-columns: repeat(7, minmax(60px, 1fr));
+  }
+
+  .week-view-grid {
+    grid-template-columns: repeat(7, minmax(60px, 1fr));
+    min-height: 300px;
+  }
+
+  .week-day-header {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .day-name {
+    font-size: 0.75rem;
+  }
+
+  .day-date {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,46 @@
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-section-title {
+  font-size: 0.938rem;
+  font-weight: 700;
+  color: #212121;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #757575;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  color: #212121;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}

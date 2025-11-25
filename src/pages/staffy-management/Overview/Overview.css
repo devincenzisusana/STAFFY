@@ -1,0 +1,13 @@
+.overview-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .overview-page {
+    gap: 16px;
+  }
+}
